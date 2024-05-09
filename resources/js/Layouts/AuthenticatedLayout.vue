@@ -5,22 +5,24 @@
             <aside class="hidden lg:block fixed top-0 z-10 left-0 bottom-0 w-60 h-screen" style="background-color: #490057;">
 
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center mb-20 p-5 gap-3 text-white justify-center">
-                    <Link :href="route('dashboard')">
+                <div class="shrink-0 flex items-center mb-10 p-5 gap-3 text-white justify-center">
+                    <Link :href="route('index')" class="flex items-center gap-3 font-bold">
                         <ApplicationLogo
                             class="block h-9 w-auto fill-current text-center"
                         />
+                        Manooka
                     </Link>
-
-                    Manooka
                 </div>
 
-                <div class="">
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </NavLink>
+                <div>
+                    <div class="text-center text-white flex items-center space-x-4 ms-10 p-2">
+                        <i class="fas fa-home opacity-50"></i>
+                        <Link :href="route('dashboard')" class="opacity-50"> Dashboard </Link>
+                    </div>
+
+                    <div class="text-center text-white flex items-center space-x-4 ms-10 p-2">
+                        <i class="fas fa-ticket opacity-50"></i>
+                        <Link :href="route('dashboard')" class="opacity-50"> My Events </Link>
                     </div>
                 </div>
             </aside>
@@ -43,9 +45,9 @@
 
                             <div class="hidden sm:flex sm:items-center sm:ms-6">
                                 <!-- Settings Dropdown -->
-                                <div class="ms-3 relative flex gap-3 items-center">
-                                    <div>
-                                        <p class="font-bold mb-0">{{ $page.props.auth.user.name }}</p>
+                                <div class="ms-3 relative flex gap-5 items-center">
+                                    <div class="text-color">
+                                        <p class="font-bold" style="line-height: 10px;">{{ $page.props.auth.user.name }}</p>
                                         <Link class="text-sm" :href="route('logout')" method="post" as="button">
                                             Logout
                                         </Link>

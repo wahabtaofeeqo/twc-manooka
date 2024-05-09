@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-color {
+    color: #A303A0;
+}
+
+.text-light {
+    color: #DF6951;
+}
+
+.bg-color {
+    background-color: #A303A0;
+}
+
+.decore {
+    background-image: url(/images/decore.png);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+.main {
+    background-image: url(/images/bg.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+}
