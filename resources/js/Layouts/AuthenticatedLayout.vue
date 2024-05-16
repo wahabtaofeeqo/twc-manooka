@@ -47,7 +47,7 @@
                                 <!-- Settings Dropdown -->
                                 <div class="ms-3 relative flex gap-5 items-center">
                                     <div class="text-color">
-                                        <p class="font-bold" style="line-height: 10px;">{{ $page.props.auth.user.name }}</p>
+                                        <p class="font-bold" style="line-height: 10px;">{{ $page.props.auth?.user?.name }}</p>
                                         <Link class="text-sm" :href="route('logout')" method="post" as="button">
                                             Logout
                                         </Link>
@@ -108,7 +108,7 @@
                                 <div class="font-medium text-base text-gray-800">
                                     {{ $page.props.auth.user.name }}
                                 </div>
-                                <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                                <div class="font-medium text-sm text-gray-500">{{ $page.props.auth?.user?.email }}</div>
                             </div>
 
                             <div class="mt-3 space-y-1">
@@ -149,7 +149,7 @@
 
     const showingNavigationDropdown = ref(false);
 
-    const searchTerm = "";
+    const searchTerm = ref("");
 
 </script>
 

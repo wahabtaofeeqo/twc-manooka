@@ -28,7 +28,7 @@
                 </div>
             </nav>
 
-            <div class="main flex items-center" style="min-height: 680px;">
+            <div class="main flex items-center p-3" style="min-height: 680px;">
                 <div class="lg:w-2/4">
                     <h4 class="font-bold text-xl mb-6 text-light">Best Event Place in Nigeria!</h4>
 
@@ -55,6 +55,6 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
+const user = computed(() => page.props.auth?.user);
 
 </script>

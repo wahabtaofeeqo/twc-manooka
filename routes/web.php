@@ -10,6 +10,11 @@ Route::get('/', 'PagesController@index')->name('index');
 // Dashboard Router
 Route::get('/dashboard', 'PagesController@dashboard')->middleware(['auth'])->name('dashboard');
 
+// Event
+Route::group(['prefix' => 'events', 'middleware' => ['auth']], function () {
+    Route::post('/', 'EventController@store')->name('event.store');
+});
+
 // Agent
 Route::group(['prefix' => 'agents/dashboard', 'middleware' => ['auth', 'is.agent']], function () {
     Route::get('/', 'Agents\MainController@index')->name('agent.index');

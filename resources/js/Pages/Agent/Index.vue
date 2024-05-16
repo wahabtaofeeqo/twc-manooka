@@ -11,7 +11,74 @@
                 </p>
 
                 <div>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis dolorum ex inventore optio unde enim blanditiis odio, repellat quidem asperiores sequi laborum quia, illo voluptates maxime rem ducimus voluptate! Voluptatibus.
+                    <form @submit.prevent="submit">
+                        <div class="mb-4">
+                            <InputLabel for="email" value="Event Name" />
+                            <TextInput
+                                id="name"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form.name"
+                                required
+                                autofocus
+                            />
+                            <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel for="email" value="Event Date" />
+                            <TextInput
+                                id="date"
+                                type="date"
+                                class="mt-1 block w-full"
+                                v-model="form.date"
+                                required
+                            />
+                            <InputError class="mt-2" :message="form.errors.date" />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel for="description" value="Event Details" />
+                            <textarea
+                                rows="5"
+                                placeholder="Brief info..."
+                                class="mt-1 block w-full"
+                                v-model="form.description"
+                            ></textarea>
+                        </div>
+
+                        <h4 class="font-bold mb-2">Client Information</h4>
+                        <div class="mb-4">
+                            <InputLabel for="clientName" value="Client Name" />
+                            <TextInput
+                                id="client_name"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form.client_name"
+                                required
+                            />
+                            <InputError class="mt-2" :message="form.errors.client_name" />
+                        </div>
+
+                        <div class="mb-4">
+                            <InputLabel for="clientPhone" value="Client Phone" />
+                            <TextInput
+                                id="client_phone"
+                                type="tel"
+                                class="mt-1 block w-full"
+                                v-model="form.client_phone"
+                                required
+                            />
+                            <InputError class="mt-2" :message="form.errors.client_phone" />
+                        </div>
+
+
+                        <div class="mt-6 text-end">
+                            <PrimaryButton class="bg-color text-white px-14 py-3" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                Create
+                            </PrimaryButton>
+                        </div>
+                    </form>
                 </div>
             </div>
         </Modal>
@@ -24,7 +91,7 @@
                     </div>
                 </div>
 
-                <div class="h-24 w-24 rounded-full bg-yellow-600 absolute left-6 flex items-end" style="bottom: -20px; z-index: 9999;">
+                <div class="h-24 w-24 rounded-full bg-yellow-600 absolute left-6 flex items-end" style="bottom: -20px;">
                     <img src="/images/profile.png" style="width: 100%">
                 </div>
             </div>
@@ -52,7 +119,12 @@
             <div class="basis-1/4">
                 <div class="rounded bg-white rounded p-3">
                     <h4 class="font-bold mb-4">Recent Events</h4>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque laborum esse praesentium! Nesciunt suscipit nobis, molestias recusandae similique, accusantium, obcaecati modi dicta impedit doloribus perferendis at dolor blanditiis mollitia qui!
+                    <div v-for="event in events">
+                        <div class="flex justify-between items-center py-3 border-b">
+                            <h4 class="font-bold">{{ event.name }}</h4>
+                            <p>{{ moment(event.created_at).format("MMM Do YY") }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,20 +133,30 @@
 
 <script setup lang="ts">
     import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import { Head } from '@inertiajs/vue3';
+    import { Head, useForm, usePage } from '@inertiajs/vue3';
     import FullCalendar from '@fullcalendar/vue3';
     import dayGridPlugin from '@fullcalendar/daygrid'
     import interactionPlugin from '@fullcalendar/interaction'
-import Modal from '@/Components/Modal.vue';
-import { computed, ref } from 'vue';
+    import Modal from '@/Components/Modal.vue';
+    import { computed, ref } from 'vue';
+    import InputLabel from '@/Components/InputLabel.vue';
+    import TextInput from '@/Components/TextInput.vue';
+    import InputError from '@/Components/InputError.vue';
+    import PrimaryButton from '@/Components/PrimaryButton.vue';
+import moment from 'moment';
 
+    defineProps<{
+        events: any[];
+        status?: string;
+    }>();
+
+    const page = usePage();
     const showModal = ref(false);
 
     const toggleModal = () => {
         showModal.value = !showModal.value;
     }
 
-    computed
     const onDateClick = (date: any) => {
         console.log(date);
     }
@@ -85,5 +167,24 @@ import { computed, ref } from 'vue';
         initialView: 'dayGridMonth',
         plugins: [dayGridPlugin, interactionPlugin]
     }
+
+    const form = useForm({
+        name: '',
+        date: '',
+        client_name: '',
+        client_phone: '',
+        description: '',
+    });
+
+    const events: any = computed(() => page.props.events);
+
+    const submit = () => {
+        form.post(route('event.store'), {
+            onFinish: () => {
+                form.reset();
+                showModal.value = false
+            },
+        });
+    };
 
 </script>
